@@ -6,11 +6,9 @@
     <title></title>
   </head>
   <body>
-    <div class="container">
-      <div id="display">
-        0
-      </div>
-      <div class="clear extra">
+  <div id="main">  <div class="container">
+      <div id="display">0</div>
+      <div class="clear extra" onclick="reset()">
         AC
       </div>
       <div class="negativeSwitch extra">
@@ -19,55 +17,36 @@
       <div class="percentage extra">
         %
       </div>
-      <div class="divide operators">
+      <div class="divide operators" onclick="divide()">
         &#247;
       </div>
-      <div class="1 numbers">
-        7
-      </div>
-      <div class="2 numbers">
-        8
-      </div>
-      <div class="3 numbers">
-        9
-      </div>
-      <div class="multiply operators">
+      <div class="1 numbers">7</div>
+      <div class="2 numbers">8</div>
+      <div class="3 numbers">9</div>
+      <div class="multiply operators" onclick="multiply()">
         &#10005;
       </div>
-      <div class="4 numbers">
-        4
-      </div>
-      <div class="5 numbers">
-        5
-      </div>
-      <div class="6 numbers">
-        6
-      </div>
-      <div class="subtract operators">
+      <div class="4 numbers">4</div>
+      <div class="5 numbers">5</div>
+      <div class="6 numbers">6</div>
+      <div class="subtract operators" onclick="subtract()">
         &#8722;
       </div>
-      <div class="7 numbers">
-        1
-      </div>
-      <div class="8 numbers">
-        2
-      </div>
-      <div class="9 numbers">
-        3
-      </div>
-      <div class="add operators">
+      <div class="7 numbers">1</div>
+      <div class="8 numbers">2</div>
+      <div class="9 numbers">3</div>
+      <div class="add operators" onclick = 'add()'>
         +
       </div>
-      <div class="zero numbers">
-        0
-      </div>
+      <div class="zero numbers">0</div>
       <div class="comma numbers">
         ,
       </div>
-      <div class="equals operators">
+      <div class="equals operators" onclick="equals()">
         =
       </div>
     </div>
+  </div>
     <script type="text/javascript" src="script.js">
 
     </script>
