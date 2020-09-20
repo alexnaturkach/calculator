@@ -15,7 +15,6 @@ body {
 }
 
 .container > div {
-  transition: 0.7s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,6 +34,7 @@ body {
   background: #505050;
 }
 .operators {
+  transition: 0.7s;
   font-weight: bold;
   border-radius: 50%;
   background: #FF9500;
@@ -51,4 +51,10 @@ body {
 .active {
   background: white;
   color: #FF9500;
+}
+.equals {
+  transition: 0.7s;
+  font-weight: bold;
+  border-radius: 50%;
+  background: #FF9500;
 }

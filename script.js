@@ -4,14 +4,14 @@ let b = 0;
 let lastOperator = '';
 const display = document.getElementById('display');
 let result;
-
+let elems = document.querySelectorAll('.operators');
 // operator functions
 
 function reset() {
   a = 0;
   b = 0;
   result = 0;
-  display.innerHTML = '0';
+  display.innerText = '0';
   lastOperator = '';
   entry ='';
 }
@@ -34,6 +34,7 @@ function subtract() {
   entry = '';
   lastOperator = 'subtract';
 }
+
 }
 
 function multiply() {
@@ -65,7 +66,7 @@ function equals() {
     result = a + b;
     //display.innerHTML;
     entry = result;
-    display.innerHTML = result;
+    display.innerText = result;
     lastOperator = 'equals';
   }
 
@@ -74,7 +75,7 @@ else if (lastOperator === 'subtract' & entry !== '') {
     result = a - b;
     //display.innerHTML;
     entry = result;
-    display.innerHTML = result;
+    display.innerText = result;
     lastOperator = 'equals';
   }
   else if (lastOperator === 'multiply' & entry !== '') {
@@ -82,7 +83,7 @@ else if (lastOperator === 'subtract' & entry !== '') {
       result = a * b;
       //display.innerHTML;
       entry = result;
-      display.innerHTML = result;
+      display.innerText = result;
       lastOperator = 'equals';
     }
     else if (lastOperator === 'divide' & entry !== '') {
@@ -90,46 +91,44 @@ else if (lastOperator === 'subtract' & entry !== '') {
         result = a / b;
         //display.innerHTML;
         entry = result;
-        display.innerHTML = result;
+        display.innerText = result;
         lastOperator = 'equals';
 }}
 
 
 
-
+function clearActive() {
+  elems.forEach.call(elems, function(el) {
+  el.classList.remove('active');
+  })
+}
 //onclick functions
 
 document.addEventListener('click', (e) => {
-  let elems = document.querySelectorAll('.operators');
+
 
   if (entry === result & e.target.classList.contains('numbers')) {
     entry = '';
-    display.innerHTML = entry;  elems.forEach.call(elems, function(el) {
-        el.classList.remove('active');
-      })
+    display.innerText = entry;
+    clearActive()
   }
   if (isNaN(entry) & e.target.classList.contains('numbers')){
     entry = '';
-    display.innerHTML = entry;  elems.forEach.call(elems, function(el) {
-        el.classList.remove('active');
-      })
+    display.innerText = entry;
+    clearActive()
   }
   if ((isFinite(entry) !== true) & e.target.classList.contains('numbers')){
     entry = '';
-    display.innerHTML = entry;  elems.forEach.call(elems, function(el) {
-        el.classList.remove('active');
-      })
+    display.innerHTML = entry;
+    clearActive()
   }
   if (e.target.classList.contains('numbers') & entry.length <9){
-  entry = entry + e.target.innerHTML;
-  display.innerHTML = entry;  elems.forEach.call(elems, function(el) {
-      el.classList.remove('active');
-    })
+  entry = entry + e.target.innerText;
+  display.innerText = entry;
+  clearActive()
 }
   if (entry.length > 5 & entry.length < 10) {
-  display.style.fontSize = '2em';  elems.forEach.call(elems, function(el) {
-      el.classList.remove('active');
-    })
+  display.style.fontSize = '2em';
 }
 
 })
