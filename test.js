@@ -1,9 +1,12 @@
 let calcDisplay = ''; //variable to store display value as string
 let firstArgument = 0; //variable to store current result/argument
 let secondArgument = 0; //variable to display argument
-let currentOperator = ''; //stores the value of the last operator clicked
+let currentOperator = ''; //stores the value of the last operator mouseuped
 let operatorList = ['add', 'subtract', 'multiply', 'divide'];
 let result;
+let ac = false;
+let mouseDown = false;
+const acButton = document.querySelector('.clear');
 const display = document.getElementById('display');
 const allOperators = document.querySelectorAll('.operators');
 
@@ -25,7 +28,7 @@ function equals() {
         result = firstArgument / secondArgument;
       }
     }
-    if (firstArgument.toString().length > 5) {
+    if (result.toString().length > 5) {
       display.style.fontSize = "1.9em";
     }
     if (result.toString().length > 8) {
@@ -42,40 +45,62 @@ function equals() {
 }
 
 function reset() {
-  result = '';
-  firstArgument = 0;
-  secondArgument = 0;
-  currentOperator = '';
-  calcDisplay = '';
-  display.innerText = '0';
-  display.style.fontSize = "2.8em";
+  if (ac) {
+    display.style.fontSize = "2.8em";
+    acButton.innerText = 'AC';
+    calcDisplay = '';
+    display.innerText = '0';
+    ac = false;
+  } else {
+    result = undefined;
+    firstArgument = 0;
+    secondArgument = 0;
+    currentOperator = '';
+    calcDisplay = '';
+    display.innerText = '0';
+    display.style.fontSize = "2.8em";
+  }
 }
 
 
-//click listeners
-document.addEventListener('click', (e) => {
+//mouseup listeners
+document.addEventListener('mouseup', (e) => {
   if (e.target.classList.contains('equals')) {
     equals();
     //firstArgument = result;
     currentOperator = '';
   }
   for (i = 0; i < allOperators.length; i++) { //remove highlight from the active operator
-    if (allOperators[i].classList.contains('active')) {
+    if (allOperators[i].classList.contains('active') & !e.target.classList.contains('extra')) {
+      allOperators[i].style.transition = '0.7s';
       allOperators[i].classList.remove('active');
     }
   }
-  if (e.target.classList.contains('numbers')) { //if clicked on Number add clicked number to the Display
-    if (display.innerText === result) {
+  if (e.target.classList.contains('numbers')) { //if mouseuped on Number add mouseuped number to the Display
+    ac = true;
+    acButton.innerText = 'C';
+    if (e.target.classList.contains('zero') & calcDisplay === "0") {
+      return;
+    }
+    if (display.innerText === result || calcDisplay === '0') {
       //if display is showing the result of operation already, just reset the display screen
       display.innerText = '';
     }
     if (calcDisplay.length > 5) {
       display.style.fontSize = "1.9em";
+    } else {
+      display.style.fontSize = "2.8em";
     }
     if (calcDisplay.length < 10 & calcDisplay.includes('.')) { //limit amount of characters that can be entered in display
+      if (calcDisplay === '-0') {
+        calcDisplay = '-';
+      }
       calcDisplay = calcDisplay + e.target.innerText;
       display.innerText = calcDisplay.toLocaleString('en-US').replace(/,/g, " ").replace(".", ","); //format the output in Display
     } else if (calcDisplay.length < 9) {
+      if (calcDisplay === '-0') {
+        calcDisplay = '-';
+      }
       calcDisplay = calcDisplay + e.target.innerText;
       display.innerText = Number(calcDisplay).toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
     }
@@ -84,11 +109,11 @@ document.addEventListener('click', (e) => {
 
 
   if (e.target.classList.contains('operators')) {
-    //if clicked on operator and arguments are not empty, operate the arguments with the last selected operator
+    //if mouseuped on operator and arguments are not empty, operate the arguments with the last selected operator
     if ((currentOperator !== '') & (calcDisplay !== '')) {
       equals();
     };
-    //loop will check which operator is clicked and will save it to the CurrentOperator variable
+    //loop will check which operator is mouseuped and will save it to the CurrentOperator variable
     for (i = 0; i < 4; i++) {
       if (e.target.classList.contains(operatorList[i])) {
         currentOperator = operatorList[i];
@@ -98,6 +123,7 @@ document.addEventListener('click', (e) => {
       firstArgument = parseFloat(calcDisplay.replace(",", "."));
       calcDisplay = ''; //reset the Display value after saving it as a first argument
     }
+    e.target.style.transition = '0.7s';
     e.target.classList.add('active');
   }
   if (e.target.classList.contains('comma') & !(calcDisplay.toString().includes('.'))) {
@@ -112,7 +138,7 @@ document.addEventListener('click', (e) => {
 
 })
 
-document.addEventListener('click', (e) => {
+document.addEventListener('mouseup', (e) => {
   if (e.target.classList.contains('percentage') & currentOperator !== 'percent') {
     if (currentOperator === '' & calcDisplay !== '') {
       result = parseFloat(calcDisplay.replace(",", "."));
@@ -131,20 +157,44 @@ document.addEventListener('click', (e) => {
 
 })
 
-document.addEventListener('click', (e) => {
+
+document.addEventListener('mouseup', (e) => {
   if (e.target.classList.contains('negativeSwitch')) {
-    if (calcDisplay === '') {
+    if (display.innerText === 'Error') {
+      reset();
+    }
+    if (result !== undefined & calcDisplay === '' & currentOperator === '') {
       if (result.toString().includes('-')) {
         result = result - result - result;
       } else {
         result = result - result - result;
       }
       calcDisplay = result + '';
+    } else if (display.innerText === '0' & currentOperator === '') {
+      calcDisplay = '';
+      calcDisplay = '-' + '0';
     } else if (calcDisplay[0] !== '-') {
-      calcDisplay = '-' + calcDisplay;
+      if (firstArgument == display.innerText) {
+        calcDisplay = '-0';
+      } else {
+        calcDisplay = '-' + display.innerText;
+      }
     } else {
       calcDisplay = calcDisplay.substring(1, calcDisplay[calcDisplay.length]);
     }
-    display.innerText = calcDisplay;
+    display.innerText = calcDisplay.toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
   }
+})
+
+document.addEventListener('mouseup', (e) => {
+  if (e.target.classList.contains('clear') & !ac) {
+    if (operatorList.includes(currentOperator)) {
+      document.querySelector('.' + currentOperator).style.transition = '0.7s';
+      document.querySelector('.' + currentOperator).classList.add('active');
+    }
+  }
+})
+
+document.addEventListener('mouseout', (e) => {
+  e.target.style.transition = '0s';
 })
