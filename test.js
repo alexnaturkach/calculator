@@ -126,7 +126,7 @@ document.addEventListener('mouseup', (e) => {
     e.target.style.transition = '0.7s';
     e.target.classList.add('active');
   }
-  if (e.target.classList.contains('comma') & !(calcDisplay.toString().includes('.')) & calcDisplay.length <9) {
+  if (e.target.classList.contains('comma') & !(calcDisplay.toString().includes('.')) & calcDisplay.length < 9) {
     if (calcDisplay === '') {
       calcDisplay = calcDisplay + '0.';
       display.innerText = calcDisplay;
@@ -139,21 +139,29 @@ document.addEventListener('mouseup', (e) => {
 })
 
 document.addEventListener('mouseup', (e) => {
-  if (e.target.classList.contains('percentage') & currentOperator !== 'percent') {
+  if (e.target.classList.contains('percentage')) {
     if (currentOperator === '' & calcDisplay !== '') {
-      result = parseFloat(calcDisplay.replace(",", "."));
+      result = parseFloat(calcDisplay);
       result = result / 100;
-      display.innerText = result.toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
-      currentOperator = 'percent';
-    } else {
-      equals();
-      if (result !== undefined) {
-        result = result / 100;
-        display.innerText = result.toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
-        currentOperator = 'percent';
+      currentOperator = '';
+      calcDisplay = '';
+      } else {
+        equals();
+        if (result !== undefined) {
+          result = result / 100;
+          currentOperator = '';
+        }
+      }
+      if (result.toString().length > 5){
+        display.style.fontSize = "1.9em";
+      }
+      if (result.toString().length > 8) {
+        display.innerText = result.toExponential(2);
+      }
+      else {
+        display.innerText = result;
       }
     }
-  }
 
 })
 
