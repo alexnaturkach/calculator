@@ -34,11 +34,11 @@ function equals() {
     if (result.toString().length > 8) {
       firstArgument = result; //saving the result of operation as a first argument
       calcDisplay = '';
-      display.innerText = result.toExponential(5).toLocaleString('en-US').replace(/,/g, " ").replace('.', ',').replace('+', '');
+      display.innerText = result.toExponential(5);
     } else {
       firstArgument = result; //saving the result of operation as a first argument
       calcDisplay = '';
-      display.innerText = result.toLocaleString('en-US').replace(/,/g, " ").replace('.', ',');
+      display.innerText = result;
     }
   }
 
@@ -96,13 +96,13 @@ document.addEventListener('mouseup', (e) => {
         calcDisplay = '-';
       }
       calcDisplay = calcDisplay + e.target.innerText;
-      display.innerText = calcDisplay.toLocaleString('en-US').replace(/,/g, " ").replace(".", ","); //format the output in Display
+      display.innerText = calcDisplay;
     } else if (calcDisplay.length < 9) {
       if (calcDisplay === '-0') {
         calcDisplay = '-';
       }
       calcDisplay = calcDisplay + e.target.innerText;
-      display.innerText = Number(calcDisplay).toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
+      display.innerText = calcDisplay;
     }
   }
 
@@ -120,19 +120,19 @@ document.addEventListener('mouseup', (e) => {
       }
     }
     if (calcDisplay !== '') { //if display not empty, save it's value as a first argument
-      firstArgument = parseFloat(calcDisplay.replace(",", "."));
+      firstArgument = parseFloat(calcDisplay);
       calcDisplay = ''; //reset the Display value after saving it as a first argument
     }
     e.target.style.transition = '0.7s';
     e.target.classList.add('active');
   }
-  if (e.target.classList.contains('comma') & !(calcDisplay.toString().includes('.'))) {
+  if (e.target.classList.contains('comma') & !(calcDisplay.toString().includes('.')) & calcDisplay.length <9) {
     if (calcDisplay === '') {
       calcDisplay = calcDisplay + '0.';
-      display.innerText = calcDisplay.toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
+      display.innerText = calcDisplay;
     } else {
       calcDisplay = calcDisplay + '.';
-      display.innerText = calcDisplay.toLocaleString('en-US').replace(/,/g, " ").replace(".", ",");
+      display.innerText = calcDisplay;
     }
   }
 
